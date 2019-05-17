@@ -1,0 +1,1 @@
+worker: News-notificator-Telegram-Bot
