@@ -18,3 +18,5 @@ migrate-targets/vendor
 migrate-locations-and-targets/vendor
 migrate-schedule/vendor
 src/timezones/genlang/bindata_gen.go
+vendor
+.docker_build
