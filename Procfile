@@ -1,1 +1,1 @@
-app: News-notificator-Telegram-Bot
+app: News-notificator-Telegram-Bo

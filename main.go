@@ -16,8 +16,9 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
+	chat := NewChat()
 
-	botClient := NewBot(bot, u)
+	botClient := NewBot(bot, u, chat)
 
 	err = botClient.listenMessages()
 	if err != nil {
