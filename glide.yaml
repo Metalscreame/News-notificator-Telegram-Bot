@@ -3,3 +3,5 @@ import:
   - package: github.com/Syfaro/telegram-bot-api
   - package: github.com/go-telegram-bot-api/telegram-bot-api
   - package: github.com/kelseyhightower/envconfig
+  - package: github.com/jasonlvhit/gocron
+  - package: github.com/PuerkitoBio/goquery

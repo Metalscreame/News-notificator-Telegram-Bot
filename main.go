@@ -1,10 +1,11 @@
 package main
 
 import (
-	"log"
-
 	"github.com/go-telegram-bot-api/telegram-bot-api"
+	"log"
 )
+
+var done = make(chan int)
 
 func main() {
 	err := readConfigFromENV()
@@ -16,13 +17,15 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
+	chat := NewChat()
 
-	botClient := NewBot(bot, u)
+	botClient := NewBot(bot, u, chat)
+	scheduler := NewScheduler(botClient, chat)
 
-	err = botClient.listenMessages()
-	if err != nil {
-		log.Panic(err)
-	}
+	go botClient.listenMessages()
+	go scheduler.StartBotScheduler()
+
+	<-done
 }
 
 func setupBot() (*tgbotapi.BotAPI, tgbotapi.UpdateConfig, error) {
