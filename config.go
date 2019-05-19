@@ -1,4 +1,4 @@
-package src
+package News_notificator_Telegram_Bot
 
 import (
 	"github.com/kelseyhightower/envconfig"
