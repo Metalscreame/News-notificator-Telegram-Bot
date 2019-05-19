@@ -1,4 +1,4 @@
-package News_notificator_Telegram_Bot
+package main
 
 import (
 	"fmt"

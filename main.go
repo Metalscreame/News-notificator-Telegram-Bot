@@ -1,4 +1,4 @@
-package News_notificator_Telegram_Bot
+package main
 
 import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"

@@ -1,4 +1,4 @@
-package News_notificator_Telegram_Bot
+package main
 
 var chatMap = make(map[int64]struct{})
 
