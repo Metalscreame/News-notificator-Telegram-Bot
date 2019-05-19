@@ -1,4 +1,4 @@
-package main
+package src
 
 var chatMap = make(map[int64]struct{})
 

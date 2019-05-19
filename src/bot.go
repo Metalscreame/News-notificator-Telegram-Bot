@@ -1,4 +1,4 @@
-package main
+package src
 
 import (
 	"fmt"
@@ -28,16 +28,14 @@ func (b *Bot) listenMessages() {
 	}
 
 	for update := range updates {
-		if update.Message == nil { // ignore any non-Message Updates
-			continue
+		message := update.Message
+		if message.Text != ""{
+			log.Printf("[%s] %s", message.From.UserName, message.Text)
 		}
 
-		message := update.Message
-		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-
 		text := b.MessageParser(message)
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
-		msg.ReplyToMessageID = update.Message.MessageID
+		msg := tgbotapi.NewMessage(message.Chat.ID, text)
+		msg.ReplyToMessageID = message.MessageID
 
 		_, err := b.botAPI.Send(msg)
 		if err != nil {

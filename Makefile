@@ -5,6 +5,7 @@ DOCKER_CMD=$(DOCKER_BUILD)/News-notificator-Telegram-Bot
 $(DOCKER_CMD): clean
 	mkdir -p $(DOCKER_BUILD)
 	make dependencies
+	cd src
 	$(GO_BUILD_ENV) go build -v -o $(DOCKER_CMD) .
 
 clean:
