@@ -1,7 +1,8 @@
 package main
 
 import (
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"fmt"
+	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"log"
 )
 
@@ -15,15 +16,15 @@ type Bot struct {
 func NewBot(b *tgbotapi.BotAPI, u tgbotapi.UpdateConfig, c Chat) Bot {
 	return Bot{
 		chatService: c,
-		botAPI:    b,
-		botConfig: u,
+		botAPI:      b,
+		botConfig:   u,
 	}
 }
 
-func (b *Bot) listenMessages() error {
+func (b *Bot) listenMessages() {
 	updates, err := b.botAPI.GetUpdatesChan(b.botConfig)
 	if err != nil {
-		return err
+		log.Panic(err)
 	}
 
 	for update := range updates {
@@ -40,6 +41,17 @@ func (b *Bot) listenMessages() error {
 		b.botAPI.Send(msg)
 	}
 	return nil
+}
+
+func (b *Bot) SendToChats(chats map[int64]struct{}, msg string) (err error) {
+	for id := range chatMap {
+		msg := tgbotapi.NewMessage(id, msg)
+		m, err := b.botAPI.Send(msg)
+		if err != nil {
+			return fmt.Errorf("msg: %v, err: %v", m, err)
+		}
+	}
+	return
 }
 
 func (b *Bot) MessageParser(msg *tgbotapi.Message) {
