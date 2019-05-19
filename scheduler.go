@@ -6,6 +6,7 @@ import (
 	"github.com/jasonlvhit/gocron"
 	"log"
 	"net/http"
+	"time"
 )
 
 const itcUaURL = "https://itc.ua/"
@@ -29,8 +30,10 @@ func NewScheduler(b Bot, c Chat) Scheduler {
 
 // StartBotScheduler starts bot Scheduler
 func (s *Scheduler) StartBotScheduler() {
+	time.Sleep(time.Second*5)
+
 	sc := gocron.NewScheduler()
-	sc.Every(newsUpdateTimeMinute).Minute().Do(s.UpdateNews)
+	sc.Every(newsUpdateTimeMinute).Minutes().Do(s.UpdateNews)
 
 	// starts scheduler
 	<-sc.Start()
