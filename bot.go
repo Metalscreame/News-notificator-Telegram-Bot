@@ -40,7 +40,6 @@ func (b *Bot) listenMessages() {
 
 		b.botAPI.Send(msg)
 	}
-	return nil
 }
 
 func (b *Bot) SendToChats(chats map[int64]struct{}, msg string) (err error) {
