@@ -30,7 +30,7 @@ func NewScheduler(b Bot, c Chat) Scheduler {
 
 // StartBotScheduler starts bot Scheduler
 func (s *Scheduler) StartBotScheduler() {
-	time.Sleep(time.Second*5)
+	time.Sleep(time.Second * 5)
 
 	sc := gocron.NewScheduler()
 	sc.Every(newsUpdateTimeMinute).Minutes().Do(s.UpdateNews)
@@ -42,22 +42,32 @@ func (s *Scheduler) StartBotScheduler() {
 // UpdateNews fetches all updates
 func (s *Scheduler) UpdateNews() {
 	// ITC.ua block start
+	err := s.FetchITC()
+	if err != nil {
+		log.Printf(err.Error())
+	}
+	// ITC.ua block end
+}
+
+// FetchITC fetches ITC ua
+func (s *Scheduler) FetchITC() (err error) {
 	url, err := s.LastITCUAPostURL()
 	if err != nil {
-		log.Printf("Error while retreiving ITC post %v", err)
-		return
+		return fmt.Errorf("error while retreiving ITC post %v", err)
 	}
 
 	if lastReceivedITCURL == url || url == "" {
 		return
 	}
 
-	err = s.bot.SendToChats(s.chatService.GetChatIDs(), url)
+	msg := fmt.Sprintf("Так-так... у нас тут новый пост! Зацени ка %v", url)
+	err = s.bot.SendToChats(s.chatService.GetChatIDs(), msg)
 	if err != nil {
-		log.Printf("Error while sending to chats %v", err)
+		return fmt.Errorf("error while sending to chats %v", err)
 	}
+
 	lastReceivedITCURL = url
-	// ITC.ua block end
+	return
 }
 
 // LastITCUAPostURL parses last post url from ITC.ua

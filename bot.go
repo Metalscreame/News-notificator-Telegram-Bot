@@ -61,7 +61,7 @@ func (b *Bot) MessageParser(msg *tgbotapi.Message) string {
 	switch msg.Text {
 	case Start:
 		b.chatService.AddChatToPull(msg.Chat.ID)
-		return "Started listening news! Wait for new post!"
+		return "Started listening the news! Wait for new post to arive! And remember... Roman Loves YOU! <3"
 	default:
 		return msg.Text
 	}
