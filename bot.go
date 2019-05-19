@@ -31,14 +31,18 @@ func (b *Bot) listenMessages() {
 		if update.Message == nil { // ignore any non-Message Updates
 			continue
 		}
+
 		message := update.Message
 		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-		b.MessageParser(message)
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+		text := b.MessageParser(message)
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, text)
 		msg.ReplyToMessageID = update.Message.MessageID
 
-		b.botAPI.Send(msg)
+		_, err := b.botAPI.Send(msg)
+		if err != nil {
+			log.Printf("ERROR: bot send failed %v", err)
+		}
 	}
 }
 
@@ -53,9 +57,12 @@ func (b *Bot) SendToChats(chats map[int64]struct{}, msg string) (err error) {
 	return
 }
 
-func (b *Bot) MessageParser(msg *tgbotapi.Message) {
+func (b *Bot) MessageParser(msg *tgbotapi.Message) string {
 	switch msg.Text {
 	case Start:
 		b.chatService.AddChatToPull(msg.Chat.ID)
+		return "Started listening news! Wait for new post!"
+	default:
+		return msg.Text
 	}
 }
