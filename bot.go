@@ -40,7 +40,7 @@ func (b *Bot) listenMessages() {
 		if markup != nil{
 			msg.ReplyMarkup = markup
 		}
-		
+
 		msg.ReplyToMessageID = message.MessageID
 
 		_, err := b.botAPI.Send(msg)
@@ -50,10 +50,9 @@ func (b *Bot) listenMessages() {
 	}
 }
 
-func (b *Bot) SendToChats(chats map[int64]struct{}, msg string, markup interface{}) (err error) {
+func (b *Bot) SendToChats(chats map[int64]struct{}, msg string) (err error) {
 	for id := range chatMap {
 		msg := tgbotapi.NewMessage(id, msg)
-		msg.ReplyMarkup = markup
 
 		m, err := b.botAPI.Send(msg)
 		if err != nil {
