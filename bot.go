@@ -33,7 +33,7 @@ func (b *Bot) listenMessages() {
 			log.Printf("[%s] %s", message.From.UserName, message.Text)
 		}
 
-		text := b.MessageParser(message)
+		text := b.AnnaMessageParser(message)
 		msg := tgbotapi.NewMessage(message.Chat.ID, text)
 		msg.ReplyToMessageID = message.MessageID
 
@@ -60,6 +60,19 @@ func (b *Bot) MessageParser(msg *tgbotapi.Message) string {
 	case Start:
 		b.chatService.AddChatToPull(msg.Chat.ID)
 		return "Started listening the news! Wait for new post to arive! And remember... Roman Loves YOU! <3"
+	default:
+		return msg.Text
+	}
+}
+
+func (b *Bot) AnnaMessageParser(msg *tgbotapi.Message) string {
+	switch msg.Text {
+	case Start:
+		return `Приветствую, прекрасный ангел. Я всего лишь бот, но я был сделан для того, чтобы направить тебя на получение небольшого подарка, сделанного одним парнем, который хотел бы вызвать на твоем прекрасном лице улыбку  радость в твоем сердце. Напиши "Получить" если хочешь получить подарок, либо "Отказаться", если не желаешь его принять.`
+	case "Получить":
+		return "Хороший выбор! С Днем рождения! https://youtu.be/6H-InGqgKzo"
+	case "Отказаться":
+		return "Ты уверенна, что хочешь разбить сердце этому парню? Я, конечно, всего лишь набор нулей и еденичек, но даже я чувствую как ты ему дорога. А я не обишаюсь, я ведь машина! Уж поверь"
 	default:
 		return msg.Text
 	}

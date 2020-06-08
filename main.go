@@ -20,16 +20,16 @@ func main() {
 	chat := NewChat()
 
 	botClient := NewBot(bot, u, chat)
-	scheduler := NewScheduler(botClient, chat)
+	//scheduler := NewScheduler(botClient, chat)
 
 	go botClient.listenMessages()
-	go scheduler.StartBotScheduler()
+	//go scheduler.StartBotScheduler()
 
 	<-done
 }
 
 func setupBot() (*tgbotapi.BotAPI, tgbotapi.UpdateConfig, error) {
-	bot, err := tgbotapi.NewBotAPI(Config.Token)
+	bot, err := tgbotapi.NewBotAPI(Config.AnnaBotToken)
 	if err != nil {
 		return nil, tgbotapi.UpdateConfig{}, err
 	}
