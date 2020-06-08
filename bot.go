@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"strings"
 
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 )
@@ -73,23 +72,21 @@ func (b *Bot) MessageParser(msg *tgbotapi.Message) string {
 }
 
 func (b *Bot) AnnaMessageParser(msg *tgbotapi.Message) (string, interface{}) {
-
-	text := strings.ReplaceAll(msg.Text, "/dl_", "")
-	switch text {
+	switch msg.Text {
 	case Start:
 		button1 := tgbotapi.KeyboardButton{
 			Text: "Получить",
 		}
 		button2 := tgbotapi.KeyboardButton{
-			Text: "Отказать",
+			Text: "Отказаться",
 		}
 		mrkup := tgbotapi.NewReplyKeyboard([]tgbotapi.KeyboardButton{button1, button2})
-		return `Приветствую, прекрасный ангел. Я всего лишь бот, но я был сделан для того, чтобы направить тебя на получение небольшого подарка, сделанного одним парнем, который хотел бы вызвать на твоем прекрасном лице улыбку  радость в твоем сердце. Напиши /dl_Получить если хочешь получить подарок, либо /dl_Отказаться , если не желаешь его принять.`,
+		return `Приветствую, принцесса :) Я всего лишь бот, но я был сделан для того, чтобы направить тебя на получение небольшого подарка, сделанного одним парнем, который хотел бы вызвать на твоем прекрасном лице улыбку  радость в твоем сердце. Напиши "Получить"" если хочешь получить подарок, либо /dl_Отказаться , если не желаешь его принять.`,
 			mrkup
 	case "Получить":
 		return `Хороший выбор! С Днем рождения! https://youtu.be/6H-InGqgKzo`, nil
 	case "Отказаться":
-		return `Ты уверенна, что хочешь разбить сердце этому парню? Я, конечно, всего лишь набор нулей и еденичек, но даже я чувствую как ты ему дорога. А я не обишаюсь, я ведь машина! Уж поверь`, nil
+		return `Ты уверенна, что хочешь разбить сердце этому парню? Я, конечно, всего лишь набор нулей и еденичек, но даже я чувствую как ты ему дорога. А я не обишаюсь, я ведь машина! Уж поверь. https://i.ytimg.com/vi/zUOxSYOzECU/maxresdefault.jpg`, nil
 	default:
 		return "Такого выбора нет...", nil
 	}
